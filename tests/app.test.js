@@ -1,12 +1,20 @@
-// Importa las funciones a probar
-import { validarInput } from './app.js';
+const { addToDo, LIST, resetList } = require('../js/app.js');
 
-// Prueba 1: Input válido
-test("Acepta input con texto real", () => {
-  expect(validarInput("Hacer ejercicio")).toBe(true);
-});
+// Mock de localStorage
+const mockLocalStorage = {
+    setItem: jest.fn(),
+    getItem: jest.fn(() => JSON.stringify([]))
+};
+global.localStorage = mockLocalStorage;
 
-// Prueba 2: Input vacío
-test("Rechaza input con espacios", () => {
-  expect(validarInput("   ")).toBe(false);
+describe('addToDo', () => {
+    test('No guarda tareas vacías ("   ")', () => {
+        const result = addToDo("   ", 0, false, false);
+        expect(result).toBeNull(); // ✅
+    });
+
+    test('Guarda tareas válidas ("Estudiar JS")', () => {
+        const result = addToDo("Estudiar JS", 1, false, false);
+        expect(result.html).toMatch(/Estudiar JS/i); // ✅
+    });
 });

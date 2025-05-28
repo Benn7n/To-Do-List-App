@@ -1,4 +1,8 @@
+// jest.config.js
+
 export default {
   testEnvironment: 'jsdom',
-  transform: {}
+  moduleNameMapper: {
+    '\\.(css|html)$': '<rootDir>/tests/mocks/fileMock.js'
+  }
 };
